@@ -7,3 +7,6 @@ ETH_URL = "https://rpc.ankr.com/eth"
 #Put your transaction price range
 MIN_PRICE = 0.001000
 MAX_PRICE = 0.001522
+
+# Enter the gwei ammount at which you would like to perform the transaction
+GWEI = 20

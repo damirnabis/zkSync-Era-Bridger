@@ -33,13 +33,12 @@ def deposit(privatekey):
         
         tx_status = l1_tx_receipt['status']
         if tx_status == 1:
-            cprint(f"\n>>> bridge ZkSync Era| Successful transaction! Amount: {amount}", "green")
+            cprint(f"\n>>> bridge ZkSync Era| Successful transaction! Amount: {amount}, gas price: {eth_web3.from_wei(gas_price, 'gwei')}", "green")
         else:
             cprint(f"\n>>> bridge ZkSync Era| Transaction failed! Tx status: {tx_status}", "red")    
 
     except Exception as error:
         cprint(f'\n>>> bridge ZkSync Era| {error}', 'red')
-
 
 if __name__ == "__main__":
     
@@ -48,8 +47,21 @@ if __name__ == "__main__":
 
     for privatekey in keys_list:
         
-        cprint(f'\n=============== start : {privatekey} ===============', 'white')
-            
-        deposit(privatekey)
+        cprint(f'\n=============== start : {privatekey} ===============', 'yellow')
+        
+        if GWEI == "":
+            deposit(privatekey)
+        else:     
+            stop_this_shit = False
+            print(f'Waitting gas value {GWEI}...')
+            while not stop_this_shit:
+                gas_price = eth_web3.eth.gas_price
+                gwei_gas_price = eth_web3.from_wei(gas_price, 'gwei')
+
+                if gwei_gas_price <= GWEI:    
+                    deposit(privatekey)
+                    stop_this_shit = True
+                else:
+                    time.sleep(3)    
         
         time.sleep(random.randint(10, 19)) 
