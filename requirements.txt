@@ -1,6 +1,0 @@
-eth_account
-web3==6.0.0
-zksync2
-termcolor
-time
-random

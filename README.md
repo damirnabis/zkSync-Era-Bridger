@@ -1,16 +1,19 @@
+Скрипт бриджит ETH из Mainnet в zkSync Era и обратно
 
-### <sub>Settings before launch.</sub>
-1. Open `config.py` file 
-2. Put your RPC provider links ZKSYNC_URL and ETH_URL (u can skip this step)
-3. Put your MIN_PRICE and MAX_PRICE. Script will randomly choose a price between these values ​​to send to the bridge
-4. Enter the GWEI ammount at which you would like to perform the transaction
-5. In the `private_keys.txt` file, insert private keys each on a new line
-6. Run a command: 
-```
-pip install -r requirements.txt
-```
+# Настройка config.py и данных :
+1. В файл `private_keys.txt` выписываем приватные ключи кошельков построчно.
+2. В файле `config.py` меняем значения переменных под себя (подробнее в самом файле)
 
-### <sub>Run script with command:</sub>
+# Запуск :
+1. Команда отправляет ETH из сети Mainnet в сеть zkSync Era.
+```
+python 01_deposit.py
 ``` 
-python main.py
+2. Команда отправляет ETH из сети zkSync Era обратно в сеть Mainnet (Примечание: сейчас вывод занимает 24 часа)
 ```
+python 02_withdrawal.py
+```
+
+
+
+🤝Say thx: `0x3972f6D89332493aFBA98370D4eC503c059adf18`

@@ -1,23 +1,19 @@
-from eth_account import Account
-from eth_account.signers.local import LocalAccount
-from web3 import Web3
-from zksync2.core.types import Token
-from zksync2.module.module_builder import ZkSyncBuilder
-from zksync2.provider.eth_provider import EthereumProvider
-
 from config import *
-from termcolor import cprint
-import time
-import random
 
 
 zksync = ZkSyncBuilder.build(ZKSYNC_URL)
 eth_web3 = Web3(Web3.HTTPProvider(ETH_URL))
 
+def sleeping(from_sleep, to_sleep):
+
+    x = random.randint(from_sleep, to_sleep)
+    for i in tqdm(range(x), desc='sleep ', bar_format='{desc}: {n_fmt}/{total_fmt}'):
+        time.sleep(1)
+
 def deposit(privatekey):
 
     try:
-        amount = round(random.uniform(MIN_PRICE, MAX_PRICE), 8)
+        amount = round(random.uniform(MIN_AMOUNT, MAX_AMOUNT), 8)
 
         account: LocalAccount = Account.from_key(privatekey)
         eth_provider = EthereumProvider(zksync, eth_web3, account)
@@ -33,27 +29,31 @@ def deposit(privatekey):
         
         tx_status = l1_tx_receipt['status']
         if tx_status == 1:
-            cprint(f"\n>>> bridge ZkSync Era| Successful transaction! Amount: {amount}, gas price: {eth_web3.from_wei(gas_price, 'gwei')}", "green")
+            logger.success(f" Deposit ETH to ZkSync Era| Amount: {amount}")
+            list_send.append(f'{STR_DONE}zkSync Era deposit | {account.address}')
         else:
-            cprint(f"\n>>> bridge ZkSync Era| Transaction failed! Tx status: {tx_status}", "red")    
+            logger.error(f"Deposit ETH to ZkSync Era| Tx status: {tx_status}")
+            list_send.append(f'{STR_CANCEL}zkSync Era deposit | {account.address}')    
 
     except Exception as error:
-        cprint(f'\n>>> bridge ZkSync Era| {error}', 'red')
+        logger.error(f'Deposit ETH to ZkSync Era| {error}')
+        list_send.append(f'{STR_CANCEL}zkSync Era deposit | {account.address}')
 
 if __name__ == "__main__":
     
     with open("private_keys.txt", "r") as f:
         keys_list = [row.strip() for row in f]
+    
+    random.shuffle(keys_list)
 
     for privatekey in keys_list:
-        
         cprint(f'\n=============== start : {privatekey} ===============', 'yellow')
         
         if GWEI == "":
             deposit(privatekey)
         else:     
             stop_this_shit = False
-            print(f'Waitting gas value {GWEI}...')
+            # logger.info(f'Waitting gas value {GWEI}...')
             while not stop_this_shit:
                 gas_price = eth_web3.eth.gas_price
                 gwei_gas_price = eth_web3.from_wei(gas_price, 'gwei')
@@ -62,6 +62,11 @@ if __name__ == "__main__":
                     deposit(privatekey)
                     stop_this_shit = True
                 else:
-                    time.sleep(3)    
+                    logger.info(f'Waitting gas value {GWEI}(current gas {gwei_gas_price})')
+                    sleeping(30,30)    
         
-        time.sleep(random.randint(10, 19)) 
+        sleep = random.randint(SLEEP_TIME_MIN, SLEEP_TIME_MAX)
+        sleeping(sleep,sleep)
+
+    if TG_BOT_SEND == True:
+        send_msg()     
