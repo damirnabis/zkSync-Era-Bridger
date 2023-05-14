@@ -19,8 +19,8 @@ ETH_URL = "https://rpc.ankr.com/eth"
 # ETH_URL = "https://rpc.ankr.com/eth_goerli"
 
 # Кол-во ETH для отправки, значение рандомно выберется между MIN_AMOUNT и MAX_AMOUNT.
-MIN_AMOUNT = 0.01
-MAX_AMOUNT = 0.02
+MIN_AMOUNT = 0.001
+MAX_AMOUNT = 0.003
 
 # Значение GWEI при котором совершится транзакция, иначе будет ждать.
 # Если значение пустое, то будет использован текущий GWEI сети
@@ -49,3 +49,8 @@ def send_msg():
     except Exception as error: 
         logger.error(error)
 
+def sleeping(from_sleep, to_sleep):
+
+    x = random.randint(from_sleep, to_sleep)
+    for i in tqdm(range(x), desc='sleep ', bar_format='{desc}: {n_fmt}/{total_fmt}'):
+        time.sleep(1)

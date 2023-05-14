@@ -6,22 +6,16 @@ from config import *
 web3 = ZkSyncBuilder.build(ZKSYNC_URL)
 eth_web3 = Web3(Web3.HTTPProvider(ETH_URL))
 
-def sleeping(from_sleep, to_sleep):
-
-    x = random.randint(from_sleep, to_sleep)
-    for i in tqdm(range(x), desc='sleep ', bar_format='{desc}: {n_fmt}/{total_fmt}'):
-        time.sleep(1)
-
 def withdrawal(privatekey):
 
     try:
         
         account: LocalAccount = Account.from_key(privatekey)
         
-        # amount = web3.zksync.get_balance(account.address, EthBlockParams.LATEST.value)
-        amount = round(random.uniform(MIN_AMOUNT, MAX_AMOUNT), 8)
+        amount = web3.zksync.get_balance(account.address, EthBlockParams.LATEST.value)
+        # amount = round(random.uniform(MIN_AMOUNT, MAX_AMOUNT), 8)
   
-        eth_web3.middleware_onion.inject(geth_poa_middleware, layer=0)
+        # eth_web3.middleware_onion.inject(geth_poa_middleware, layer=0)
 
         eth_balance = eth_web3.eth.get_balance(account.address)
         logger.info(f"Eth: balance: {Web3.from_wei(eth_balance, 'ether')}")

@@ -4,12 +4,6 @@ from config import *
 zksync = ZkSyncBuilder.build(ZKSYNC_URL)
 eth_web3 = Web3(Web3.HTTPProvider(ETH_URL))
 
-def sleeping(from_sleep, to_sleep):
-
-    x = random.randint(from_sleep, to_sleep)
-    for i in tqdm(range(x), desc='sleep ', bar_format='{desc}: {n_fmt}/{total_fmt}'):
-        time.sleep(1)
-
 def deposit(privatekey):
 
     try:
