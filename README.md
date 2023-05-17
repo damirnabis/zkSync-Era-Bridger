@@ -1,4 +1,4 @@
-Скрипт бриджит ETH из Mainnet в zkSync Era и обратно
+Скрипт бриджит ETH из Mainnet в zkSync Era и обратно (https://portal.zksync.io/bridge)
 
 # Настройка config.py и данных :
 1. В файл `private_keys.txt` выписываем приватные ключи кошельков построчно.
