@@ -3,6 +3,7 @@ from eth_account.signers.local import LocalAccount
 from web3 import Web3
 from zksync2.core.types import Token, EthBlockParams
 from zksync2.module.module_builder import ZkSyncBuilder
+from zksync2.manage_contracts.zksync_contract import ZkSyncContract
 from zksync2.provider.eth_provider import EthereumProvider
 
 from termcolor import cprint
@@ -24,11 +25,11 @@ MAX_AMOUNT = 0.003
 
 # Значение GWEI при котором совершится транзакция, иначе будет ждать.
 # Если значение пустое, то будет использован текущий GWEI сети
-GWEI = 21
+GWEI = 21 #''
 
 # Пауза выполения скрипта между кошельками (рандомно между SLEEP_TIME_MIN и SLEEP_TIME_MAX)
-SLEEP_TIME_MIN = 300
-SLEEP_TIME_MAX = 900
+SLEEP_TIME_MIN = 100
+SLEEP_TIME_MAX = 300
 
 # настройка отправки результатов в тг бота
 TG_BOT_SEND = False # True / False. Если True, тогда будет отправлять результаты
