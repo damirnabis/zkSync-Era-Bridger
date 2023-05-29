@@ -23,6 +23,7 @@ def deposit(privatekey):
                                              amount=Web3.to_wei(amount, 'ether'),
                                              l2_gas_limit=gas_limit,
                                              gas_price=gas_price,
+                                             gas_limit = 150000
                                              gas_per_pubdata_byte=800,
                                              operator_tip=operator_tip)
 
